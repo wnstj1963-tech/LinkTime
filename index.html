@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>잇는시간 — 선배와의 1시간</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="index">
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="logo" href="index.html" aria-label="잇는시간 홈"><b>잇는시간</b><span class="dot"></span></a>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="메뉴 열기">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav" id="siteNav">
+      <a href="index.html" data-page="index">멘토 찾기</a>
+      <a href="mentor-apply.html" class="ghost" data-page="mentor-apply">멘토 등록하기</a>
+      <a href="mentor-inbox.html" class="ghost" data-page="mentor-inbox">받은 예약</a>
+      <a href="my.html" data-page="my">내 예약</a>
+      <div class="notif-wrap" id="notifWrap" hidden>
+        <button type="button" class="notif-bell" id="notifBell" aria-label="알림" aria-expanded="false" aria-haspopup="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+          <span class="notif-badge" id="notifBadge" hidden>0</span>
+        </button>
+        <div class="notif-panel" id="notifPanel" hidden></div>
+      </div>
+      <a href="login.html" id="authLink" class="solid" data-page="login">로그인</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero landing-hero">
+    <p class="intro">편입·자격증·진로·첫 취업까지, 먼저 겪어본 선배·졸업생·현직자에게 물어보세요.</p>
+
+    <form class="search landing-search" id="searchForm">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+      <input type="text" id="q" placeholder="궁금한 것을 검색해보세요 (예: 편입, 정보처리기사)">
+      <button type="submit" class="search-submit">검색</button>
+    </form>
+
+    <div class="quick-categories">
+      <span class="quick-label">분야로 바로 찾기</span>
+      <div class="chips" id="quickChips"></div>
+    </div>
+
+    <a class="browse-all" href="mentors.html">전체 멘토 보기 →</a>
+  </section>
+
+  <section class="trust-section">
+    <div class="trust-card">
+      <div class="trust-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      </div>
+      <h3>1시간 실시간 대화</h3>
+      <p>질문 게시판이 아니에요. 예약한 시간에 1:1로 직접 대화해요.</p>
+    </div>
+    <div class="trust-card">
+      <div class="trust-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h3>경험 확인된 멘토</h3>
+      <p>선배·졸업생·현직자의 경험을 확인하고 배지로 보여줘요.</p>
+    </div>
+    <div class="trust-card">
+      <div class="trust-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      </div>
+      <h3>선배 멘토링은 무료</h3>
+      <p>먼저 겪어본 선배에게 묻는 건 무료예요. 전문가 멘토링만 유료예요.</p>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabaseClient.js"></script>
+<script src="js/api.js"></script>
+<script src="js/common.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

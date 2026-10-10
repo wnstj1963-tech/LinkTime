@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>잇는시간 — 선배와의 30분</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#17241f;
+    --paper:#f6f7f3;
+    --surface:#ffffff;
+    --pine:#2f6b4f;
+    --pine-deep:#244f3c;
+    --amber:#c07f1e;
+    --amber-soft:#f6ecd8;
+    --amber-line:#e6cfa2;
+    --line:#e2e6df;
+    --muted:#5c6b63;
+    --shadow:24px 24px 60px -30px rgba(23,36,31,.28);
+    --serif:"Gowun Batang",serif;
+    --sans:"IBM Plex Sans KR",system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#eef2ec;
+      --paper:#111714;
+      --surface:#1a221d;
+      --pine:#74cca0;
+      --pine-deep:#8bd8b1;
+      --amber:#e6ad57;
+      --amber-soft:#241f14;
+      --amber-line:#4a3f24;
+      --line:#2a332d;
+      --muted:#9aa79f;
+      --shadow:24px 24px 60px -30px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#eef2ec;--paper:#111714;--surface:#1a221d;--pine:#74cca0;--pine-deep:#8bd8b1;
+    --amber:#e6ad57;--amber-soft:#241f14;--amber-line:#4a3f24;--line:#2a332d;--muted:#9aa79f;
+    --shadow:24px 24px 60px -30px rgba(0,0,0,.5);
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-size:16px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  img{max-width:100%;}
+  button{font-family:inherit;cursor:pointer;}
+  :focus-visible{outline:2.5px solid var(--pine);outline-offset:2px;border-radius:4px;}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+  /* header */
+  header{border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--paper);z-index:20;}
+  .bar{display:flex;align-items:center;justify-content:space-between;height:68px;}
+  .logo{display:flex;align-items:baseline;gap:2px;text-decoration:none;}
+  .logo b{font-family:var(--serif);font-weight:700;font-size:24px;letter-spacing:-.01em;}
+  .logo .dot{width:7px;height:7px;border-radius:50%;background:var(--amber);align-self:flex-end;margin-bottom:6px;margin-left:3px;}
+  .nav{display:flex;align-items:center;gap:8px;}
+  .nav a{font-size:14.5px;text-decoration:none;padding:9px 14px;border-radius:9px;font-weight:500;color:var(--muted);}
+  .nav a:hover{color:var(--ink);}
+  .nav a.ghost{border:1px solid var(--line);color:var(--ink);}
+  .nav a.solid{background:var(--pine);color:#fff;border:1px solid var(--pine);}
+  :root[data-theme="dark"] .nav a.solid, :root:not([data-theme="light"]) .nav a.solid{color:#0e1512;}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .nav a.solid{color:#0e1512;}}
+
+  /* hero */
+  .hero{padding:70px 0 40px;}
+  .hero h1{
+    font-family:var(--serif);font-weight:700;
+    font-size:clamp(30px,5.4vw,54px);line-height:1.18;margin:0 0 20px;
+    letter-spacing:-.015em;max-width:16ch;
+  }
+  .hero p.lead{font-size:clamp(16px,2.2vw,19px);color:var(--muted);max-width:52ch;margin:0 0 8px;}
+  .hero .note{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-size:14px;color:var(--pine);font-weight:600;}
+  .hero .note svg{width:17px;height:17px;}
+
+  /* search + filters */
+  .controls{margin-top:38px;}
+  .search{position:relative;max-width:440px;}
+  .search svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--muted);}
+  .search input{
+    width:100%;padding:14px 16px 14px 44px;font-size:15.5px;font-family:inherit;
+    border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);
+  }
+  .search input::placeholder{color:var(--muted);}
+  .chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px;}
+  .chip{
+    border:1px solid var(--line);background:var(--surface);color:var(--muted);
+    padding:8px 15px;border-radius:999px;font-size:14px;font-weight:500;transition:none;
+  }
+  .chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+  .chip:hover{color:var(--ink);}
+  .chip[aria-pressed="true"]:hover{color:var(--paper);}
+
+  /* list header */
+  .listhead{display:flex;align-items:baseline;justify-content:space-between;margin:44px 0 20px;border-top:1px solid var(--line);padding-top:22px;}
+  .listhead .count{font-family:var(--serif);font-size:20px;}
+  .listhead .count span{color:var(--pine);}
+
+  /* grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;}
+  .card{
+    background:var(--surface);border:1px solid var(--line);border-radius:16px;
+    padding:22px 22px 20px;display:flex;flex-direction:column;
+  }
+  .card .top{display:flex;gap:14px;align-items:flex-start;}
+  .avatar{
+    width:52px;height:52px;border-radius:14px;flex:0 0 auto;
+    display:grid;place-items:center;font-family:var(--serif);font-weight:700;font-size:22px;color:#fff;
+  }
+  .card h3{margin:0;font-size:17.5px;font-weight:600;letter-spacing:-.01em;}
+  .card .role{font-size:13.5px;color:var(--muted);margin-top:2px;}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin:15px 0 0;}
+  .tag{font-size:12px;color:var(--pine);background:color-mix(in srgb,var(--pine) 10%,transparent);padding:4px 10px;border-radius:6px;font-weight:600;}
+  .blurb{font-size:14.5px;color:var(--ink);margin:15px 0 0;flex:1 0 auto;}
+
+  .slots{margin-top:18px;background:var(--amber-soft);border:1px solid var(--amber-line);border-radius:12px;padding:13px 14px;}
+  .slots .slabel{font-size:12.5px;font-weight:700;color:var(--amber);margin:0 0 9px;display:flex;align-items:center;gap:6px;}
+  .slots .slabel svg{width:14px;height:14px;}
+  .slotrow{display:flex;flex-wrap:wrap;gap:7px;}
+  .slot{font-size:13px;background:var(--surface);border:1px solid var(--amber-line);color:var(--ink);padding:6px 11px;border-radius:8px;font-weight:500;}
+
+  .book{
+    margin-top:18px;width:100%;padding:13px;border-radius:11px;border:1px solid var(--pine);
+    background:var(--pine);color:#fff;font-size:15px;font-weight:600;
+  }
+  :root[data-theme="dark"] .book,:root:not([data-theme="light"]) .book{color:#0e1512;}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .book{color:#0e1512;}}
+  .book:hover{background:var(--pine-deep);border-color:var(--pine-deep);}
+
+  .empty{text-align:center;padding:60px 20px;border:1px dashed var(--line);border-radius:16px;color:var(--muted);}
+  .empty b{display:block;color:var(--ink);font-family:var(--serif);font-size:19px;margin-bottom:8px;font-weight:700;}
+  .empty a{color:var(--pine);font-weight:600;}
+
+  footer{margin:70px 0 40px;padding-top:26px;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;}
+  footer .mvp{display:inline-block;background:var(--amber-soft);border:1px solid var(--amber-line);color:var(--amber);padding:3px 10px;border-radius:6px;font-weight:700;font-size:12px;margin-bottom:12px;}
+
+  /* modal */
+  .scrim{position:fixed;inset:0;background:rgba(15,22,18,.5);backdrop-filter:blur(3px);display:none;z-index:50;padding:20px;overflow-y:auto;}
+  .scrim.open{display:grid;place-items:center;}
+  .modal{
+    background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);
+    width:100%;max-width:480px;padding:28px;
+  }
+  .modal .mhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px;}
+  .modal h2{font-family:var(--serif);font-size:23px;margin:0;font-weight:700;letter-spacing:-.01em;}
+  .modal .who{font-size:14px;color:var(--muted);margin:4px 0 20px;}
+  .modal .who b{color:var(--pine);}
+  .close{background:none;border:1px solid var(--line);border-radius:9px;width:34px;height:34px;font-size:18px;color:var(--muted);line-height:1;flex:0 0 auto;}
+  .close:hover{color:var(--ink);}
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:14px;font-weight:600;margin-bottom:9px;}
+  .field .hint{font-weight:400;color:var(--muted);font-size:12.5px;}
+  .field textarea,.field input[type=text]{
+    width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:10px;
+    background:var(--paper);color:var(--ink);font-family:inherit;font-size:14.5px;resize:vertical;
+  }
+  .field textarea{min-height:82px;}
+  .pickrow{display:flex;flex-wrap:wrap;gap:8px;}
+  .pick{font-size:13.5px;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:9px 13px;border-radius:9px;font-weight:500;}
+  .pick[aria-pressed="true"]{background:var(--pine);border-color:var(--pine);color:#fff;}
+  :root[data-theme="dark"] .pick[aria-pressed="true"],:root:not([data-theme="light"]) .pick[aria-pressed="true"]{color:#0e1512;}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pick[aria-pressed="true"]{color:#0e1512;}}
+  .submit{width:100%;padding:14px;border-radius:12px;border:none;background:var(--pine);color:#fff;font-size:15.5px;font-weight:600;margin-top:4px;}
+  :root[data-theme="dark"] .submit,:root:not([data-theme="light"]) .submit{color:#0e1512;}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .submit{color:#0e1512;}}
+  .submit:hover{background:var(--pine-deep);}
+  .submit:disabled{opacity:.5;cursor:not-allowed;}
+
+  /* confirmation */
+  .done{text-align:center;padding:8px 4px;}
+  .done .mark{width:64px;height:64px;border-radius:50%;background:var(--amber-soft);border:1px solid var(--amber-line);display:grid;place-items:center;margin:6px auto 18px;}
+  .done .mark svg{width:30px;height:30px;color:var(--amber);}
+  .done h2{font-family:var(--serif);font-size:23px;margin:0 0 10px;}
+  .done p{color:var(--muted);font-size:14.5px;margin:0 auto 6px;max-width:34ch;}
+  .done .again{margin-top:22px;background:none;border:1px solid var(--line);color:var(--ink);padding:11px 20px;border-radius:11px;font-weight:600;font-size:14.5px;}
+
+  @media (max-width:560px){
+    .wrap{padding:0 18px;}
+    .hero{padding:48px 0 30px;}
+    .nav a:not(.solid){display:none;}
+    .grid{grid-template-columns:1fr;}
+    .modal{padding:22px;}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .card{animation:rise .5s cubic-bezier(.2,.7,.3,1) backwards;}
+    .modal{animation:pop .28s cubic-bezier(.2,.8,.3,1);}
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+  @keyframes pop{from{opacity:0;transform:scale(.97) translateY(6px);}to{opacity:1;transform:none;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#" aria-label="잇는시간 홈"><b>잇는시간</b><span class="dot"></span></a>
+    <nav class="nav">
+      <a href="#" class="ghost">멘토로 참여</a>
+      <a href="#" class="solid">로그인</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <h1>먼저 그 길을 간 선배와, 30분 얼굴 보고 이야기해요.</h1>
+    <p class="lead">질문 게시판이 아니에요. 궁금한 걸 아는 선배에게 시간을 예약하고, 정해진 시간에 1:1로 실시간 대화합니다.</p>
+    <span class="note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      예약 → 선배 수락 → 약속한 시간에 대화
+    </span>
+
+    <div class="controls">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+        <input type="text" id="q" placeholder="궁금한 것을 검색해보세요 (예: 편입, 정보처리기사)">
+      </div>
+      <div class="chips" id="chips" role="group" aria-label="분야 필터"></div>
+    </div>
+  </section>
+
+  <div class="listhead">
+    <div class="count"><span id="cnt">0</span>명의 선배가 기다리고 있어요</div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>
+    <span class="mvp">MVP 미리보기</span><br>
+    이 화면은 1단계 시제품이에요. 지금은 예약 신청이 운영자에게 전달되어 수동으로 연결되고, 수요가 확인되면 로그인·자동 예약·실시간 채팅을 붙일 예정입니다.
+  </footer>
+</main>
+
+<!-- 예약 모달 -->
+<div class="scrim" id="scrim" role="dialog" aria-modal="true" aria-labelledby="mtitle">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+  const MENTORS = [
+    {name:"김도현", role:"컴퓨터공학과 3학년 (전문대 → 4년제 편입)", color:"#2f6b4f",
+     tags:["편입","프로그래밍"], blurb:"전문대에서 4년제로 편입한 전 과정을 겪었어요. 학점 관리, 자기소개서, 면접까지 준비 얘기를 편하게 해줄 수 있어요.",
+     slots:["목 20:00","토 14:00"]},
+    {name:"이서연", role:"정보처리기사 취득 · 개발자 2년차", color:"#c07f1e",
+     tags:["자격증","취업"], blurb:"정보처리기사·산업기사 필기와 실기 공부 순서, 자주 나오는 함정, 첫 취업 후기까지 알려드려요.",
+     slots:["수 21:00","일 11:00"]},
+    {name:"박준영", role:"UX 디자이너 3년차 (비전공 출신)", color:"#3a5a8c",
+     tags:["UI/UX","취업"], blurb:"전공이 아니었는데 디자인 직무로 왔어요. 포트폴리오를 어떻게 채웠는지, 무엇을 빼야 하는지 같이 봐요.",
+     slots:["화 19:30"]},
+    {name:"최민지", role:"백엔드 개발자 · 스타트업 재직", color:"#7a4a8c",
+     tags:["프로그래밍","취업"], blurb:"국비·부트캠프 없이 독학으로 취업했어요. 무엇을 공부했고 어떻게 증명했는지 현실적으로 얘기해요.",
+     slots:["금 20:00","토 16:00"]},
+    {name:"정하늘", role:"편입 후 대학원 진학 준비 중", color:"#2f6b4f",
+     tags:["편입","진학/진로"], blurb:"편입한 뒤의 학점 전략과 대학원을 향한 방향 설정. 편입이 끝이 아니라 시작인 사람들을 위해서요.",
+     slots:["월 20:00"]},
+    {name:"강태오", role:"임베디드 · 로봇 엔지니어", color:"#8c5a2f",
+     tags:["프로그래밍","진학/진로"], blurb:"아두이노로 시작해 실무 임베디드까지 왔어요. 하드웨어 쪽 진로가 궁금하면 물어보세요.",
+     slots:["목 21:00","일 15:00"]},
+  ];
+
+  const FILTERS = ["전체","편입","자격증","취업","프로그래밍","UI/UX","진학/진로"];
+  let activeFilter = "전체";
+  let query = "";
+
+  const grid = document.getElementById("grid");
+  const chipsEl = document.getElementById("chips");
+  const cntEl = document.getElementById("cnt");
+  const qEl = document.getElementById("q");
+
+  FILTERS.forEach((f,i)=>{
+    const b=document.createElement("button");
+    b.className="chip";b.textContent=f;b.setAttribute("aria-pressed",i===0?"true":"false");
+    b.onclick=()=>{activeFilter=f;[...chipsEl.children].forEach(c=>c.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");render();};
+    chipsEl.appendChild(b);
+  });
+  qEl.addEventListener("input",e=>{query=e.target.value.trim().toLowerCase();render();});
+
+  function matches(m){
+    const okF = activeFilter==="전체" || m.tags.includes(activeFilter);
+    const hay = (m.name+m.role+m.blurb+m.tags.join("")).toLowerCase();
+    const okQ = !query || hay.includes(query);
+    return okF && okQ;
+  }
+
+  function clockIcon(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';}
+
+  function render(){
+    const list = MENTORS.filter(matches);
+    cntEl.textContent = list.length;
+    grid.innerHTML = "";
+    if(list.length===0){
+      grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><b>그 분야 선배는 아직 없어요</b>먼저 경험한 선배를 계속 모으고 있어요. 당신이 그 선배가 되어줄 수도 있어요. <a href="#">멘토로 참여하기</a></div>';
+      return;
+    }
+    list.forEach((m,idx)=>{
+      const el=document.createElement("article");
+      el.className="card";
+      el.style.animationDelay=(idx*45)+"ms";
+      el.innerHTML=`
+        <div class="top">
+          <div class="avatar" style="background:${m.color}">${m.name[0]}</div>
+          <div><h3>${m.name}</h3><div class="role">${m.role}</div></div>
+        </div>
+        <div class="tags">${m.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>
+        <p class="blurb">${m.blurb}</p>
+        <div class="slots">
+          <p class="slabel">${clockIcon()} 이번 주 예약 가능</p>
+          <div class="slotrow">${m.slots.map(s=>`<span class="slot">${s}</span>`).join("")}</div>
+        </div>
+        <button class="book">대화 예약하기</button>`;
+      el.querySelector(".book").onclick=()=>openModal(m);
+      grid.appendChild(el);
+    });
+  }
+
+  /* ---- modal ---- */
+  const scrim=document.getElementById("scrim");
+  const modal=document.getElementById("modal");
+  let lastFocus=null;
+
+  function openModal(m){
+    lastFocus=document.activeElement;
+    let chosenSlot=null;
+    modal.innerHTML=`
+      <div class="mhead">
+        <h2 id="mtitle">대화 예약</h2>
+        <button class="close" aria-label="닫기">&times;</button>
+      </div>
+      <p class="who"><b>${m.name}</b> 선배에게 30분 대화를 신청해요.</p>
+      <div class="field">
+        <label>어떤 시간이 좋아요? <span class="hint">선배가 열어둔 시간 중에서 골라요</span></label>
+        <div class="pickrow" id="picks">${m.slots.map(s=>`<button class="pick" type="button">${s}</button>`).join("")}</div>
+      </div>
+      <div class="field">
+        <label for="ask">무엇이 가장 궁금해요? <span class="hint">구체적일수록 선배가 준비하기 좋아요</span></label>
+        <textarea id="ask" placeholder="예: 전문대에서 편입할 때 학점이 부족했는데 어떻게 보완했는지 궁금해요."></textarea>
+      </div>
+      <div class="field">
+        <label for="contact">연락받을 방법 <span class="hint">이메일 또는 카카오 오픈채팅 링크</span></label>
+        <input type="text" id="contact" placeholder="예: junseo@email.com">
+      </div>
+      <button class="submit" id="send" disabled>예약 신청 보내기</button>`;
+
+    const picks=modal.querySelector("#picks");
+    picks.querySelectorAll(".pick").forEach(p=>{
+      p.onclick=()=>{picks.querySelectorAll(".pick").forEach(x=>x.setAttribute("aria-pressed","false"));p.setAttribute("aria-pressed","true");chosenSlot=p.textContent;checkReady();};
+    });
+    const ask=modal.querySelector("#ask");
+    const contact=modal.querySelector("#contact");
+    const send=modal.querySelector("#send");
+    function checkReady(){send.disabled=!(chosenSlot && ask.value.trim() && contact.value.trim());}
+    ask.oninput=checkReady;contact.oninput=checkReady;
+
+    modal.querySelector(".close").onclick=closeModal;
+    send.onclick=()=>showDone(m,chosenSlot);
+
+    scrim.classList.add("open");
+    document.body.style.overflow="hidden";
+    modal.querySelector(".close").focus();
+  }
+
+  function showDone(m,slot){
+    modal.innerHTML=`
+      <div class="done">
+        <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <h2>신청이 전달됐어요</h2>
+        <p><b>${m.name}</b> 선배에게 <b>${slot}</b> 대화 신청을 보냈어요.</p>
+        <p>선배가 수락하면 남겨주신 연락처로 약속 시간과 대화 링크를 보내드려요.</p>
+        <button class="again">다른 선배도 보기</button>
+      </div>`;
+    modal.querySelector(".again").onclick=closeModal;
+    modal.querySelector(".again").focus();
+  }
+
+  function closeModal(){
+    scrim.classList.remove("open");
+    document.body.style.overflow="";
+    if(lastFocus)lastFocus.focus();
+  }
+  scrim.addEventListener("click",e=>{if(e.target===scrim)closeModal();});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&scrim.classList.contains("open"))closeModal();});
+
+  render();
+</script>
+</body>
+</html>

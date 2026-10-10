@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>내 예약 — 잇는시간</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="my">
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="logo" href="index.html" aria-label="잇는시간 홈"><b>잇는시간</b><span class="dot"></span></a>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="메뉴 열기">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav" id="siteNav">
+      <a href="index.html" data-page="index">멘토 찾기</a>
+      <a href="mentor-apply.html" class="ghost" data-page="mentor-apply">멘토 등록하기</a>
+      <a href="mentor-inbox.html" class="ghost" data-page="mentor-inbox">받은 예약</a>
+      <a href="my.html" data-page="my">내 예약</a>
+      <div class="notif-wrap" id="notifWrap" hidden>
+        <button type="button" class="notif-bell" id="notifBell" aria-label="알림" aria-expanded="false" aria-haspopup="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+          <span class="notif-badge" id="notifBadge" hidden>0</span>
+        </button>
+        <div class="notif-panel" id="notifPanel" hidden></div>
+      </div>
+      <a href="login.html" id="authLink" class="solid" data-page="login">로그인</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="myMain"></main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabaseClient.js"></script>
+<script src="js/api.js"></script>
+<script src="js/common.js"></script>
+<script src="js/my.js"></script>
+</body>
+</html>
